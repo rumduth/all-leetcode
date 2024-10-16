@@ -1,0 +1,33 @@
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        counter = Counter()
+        l = 0
+        res = 0
+        for r, c in enumerate(s):
+            counter[c] += 1
+            while counter[c] > 1:
+                counter[s[l]] -= 1
+                l += 1
+            res = max(res, r - l + 1)
+        return res
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        unordered_map<char, int> cnt;
+        int res = 0;
+        int l = 0;
+        for(int r = 0; r < s.length(); r++){
+            cnt[s[r]]++;
+            while(cnt[s[r]] > 1){
+                cnt[s[l]]--;
+                l++;
+            }
+            res = max(res, r - l + 1);
+        }
+        return res;
+    }
+}; 
+
+Time Complexity: O(N)
+Space Complexity: O(N)
