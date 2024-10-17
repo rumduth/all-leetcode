@@ -1,0 +1,50 @@
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        if(numRows == 1) return s;
+        string res = "";
+        for(int i = 0; i < numRows; i += 1){
+            if(i == 0 || i == numRows - 1){
+                int start = i;
+                while(start < s.length()){
+                    res.push_back(s[start]);
+                    start += 2 * (numRows - 1);
+                }
+            }else{
+                int cycle = 2 * (numRows - 1 - i);
+                int start = i;
+                while(start < s.length()){
+                    res.push_back(s[start]);
+                    start += cycle;
+                    cycle = 2 * (numRows - 1) - cycle;
+                }
+            }
+        }
+        return res;
+    }
+};
+
+
+class Solution:
+    def convert(self, s: str, numRows: int) -> str:
+        if numRows == 1:
+            return s
+        res = ""
+        for i in range(numRows):
+            if i == 0 or i == numRows - 1:
+                start = i
+                while start < len(s):
+                    res += s[start]
+                    start += 2 * (numRows - 1)
+            else:
+                cycle = 2 * (numRows - i - 1)
+                start = i
+                while start < len(s):
+                    res += s[start]
+                    start += cycle
+                    cycle = 2 * (numRows - 1) - cycle
+        
+        return res
+
+Time Complexity: O(N)
+Space Complexity: O(1)
