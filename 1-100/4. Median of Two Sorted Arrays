@@ -1,0 +1,49 @@
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int m = nums1.size();
+        int n = nums2.size();
+        function<int(int, int, int)> findKElement = [&](int i, int j, int k){
+            if(i >= m) return nums2[j + k - 1];
+            if(j >= n) return nums1[i + k - 1];
+            if(k == 1) return min(nums1[i],nums2[j]);
+            int half_k = k / 2;
+            int val1 = i + half_k - 1 < m ? nums1[i + half_k - 1] : INT_MAX;
+            int val2 = j + half_k - 1 < n ? nums2[j + half_k - 1] : INT_MAX;
+            if(val1 < val2)
+                return findKElement(i + half_k, j, k - half_k);
+            return findKElement(i, j + half_k, k - half_k);
+        };
+        int a = findKElement(0,0,(m + n + 1) / 2);
+        int b = findKElement(0,0,(m + n + 2) / 2);
+        return (a + b) / 2.0;
+    }
+};
+
+
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        m, n = len(nums1), len(nums2)
+        
+        def findKElemenent(i, j, k):
+            if i >= m:
+                return nums2[j + k - 1]
+            if j >= n:
+                return nums1[i + k - 1]
+            if k == 1:
+                return min(nums1[i],nums2[j])
+            half_k = k // 2
+            val1 = nums1[i + half_k - 1] if i + half_k - 1 < m else float('inf')
+            val2 = nums2[j + half_k - 1] if j + half_k - 1 < n else float('inf')
+            if val1 < val2:
+                return findKElemenent(i + half_k, j, k - half_k)
+            return findKElemenent(i, j + half_k, k - half_k)
+        
+        a = findKElemenent(0,0,(m + n + 1) // 2)
+        b = findKElemenent(0,0,(m+n+2) // 2)
+        return (a + b) / 2
+            
+
+
+Time Complexity: O(log(m + n))
+Space Complexity: O(1)
