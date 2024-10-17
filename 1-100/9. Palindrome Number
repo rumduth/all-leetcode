@@ -1,0 +1,31 @@
+class Solution:
+    def isPalindrome(self, x: int) -> bool:
+        if x < 0:
+            return False
+        copy_x = x
+        reverse_number = 0
+        while x > 0:
+            reverse_number = reverse_number * 10 + x % 10
+            x //= 10
+        return reverse_number == copy_x
+
+
+
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if(x < 0) return false;
+        int copy_x = x;
+        int reverse_number = 0;
+        while(x > 0){
+            if(reverse_number > INT_MAX / 10)
+                return false;
+            reverse_number = reverse_number * 10 + x % 10;
+            x /= 10;
+        }
+        return copy_x == reverse_number;
+    }
+};
+
+Time Complexity: O(logN)
+Space Complexity: O(1)
