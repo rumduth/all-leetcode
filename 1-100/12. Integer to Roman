@@ -1,0 +1,30 @@
+class Solution:
+    def intToRoman(self, num: int) -> str:
+        map_number = [[1000, "M"],[900,"CM"],[500,"D"],[400,"CD"],[100,"C"],[90,"XC"],[50,"L"],[40,"XL"],[10,"X"],[9,"IX"],[5,"V"],[4,"IV"],[1,"I"]]
+        res = ""
+        i = 0
+        while num > 0:
+            while num >= map_number[i][0]:
+                num -= map_number[i][0]
+                res += map_number[i][1]
+            i += 1
+        return res
+
+
+class Solution {
+public:
+    string intToRoman(int num) {
+        vector<pair<int,string>> map_number = {{1000, "M"},{900,"CM"},{500,"D"},{400,"CD"},{100,"C"},{90,"XC"},{50,"L"},{40,"XL"},{10,"X"},{9,"IX"},{5,"V"},{4,"IV"},{1,"I"}};
+        string res = "";
+        for(int i = 0; i < map_number.size() && num > 0; i++){
+            while(num >= map_number[i].first){
+                res += map_number[i].second;
+                num -= map_number[i].first;
+            }
+        }
+        return res;
+    }
+};
+
+Time Complexity: O(1)
+Space Complexity: O(1)
