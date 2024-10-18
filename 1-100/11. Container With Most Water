@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int i = 0;
+        int j = height.size() - 1;
+        int area = 0;
+        while(i < j){
+            int h1 = height[i];
+            int h2 = height[j];
+            int w = j - i;
+            if(h1 > h2){
+                area = max(area, h2 * w);
+                j -= 1;
+            }else{
+                area = max(area, h1 * w);
+                i += 1;
+            }
+        }
+        return area;
+    }
+};
+
+
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        i, j = 0, len(height) - 1
+        area = 0
+        while i < j:
+            if height[i] > height[j]:
+                area = max(area, (j - i) * height[j])
+                j -= 1
+            else:
+                area = max(area, (j - i) * height[i])
+                i += 1
+        return area
+
+Time Complexity: O(N)
+Space Complexity: O(1)
