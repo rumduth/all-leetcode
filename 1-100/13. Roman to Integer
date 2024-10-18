@@ -1,0 +1,61 @@
+class Solution:
+    def romanToInt(self, s: str) -> int:
+        converter = {
+            "I": 1,
+            "V": 5,
+            "X": 10,
+            "L": 50,
+            "C": 100,
+            "D": 500,
+            "M": 1000
+        }
+        res = 0
+        i = len(s) - 1
+        while i >= 0:
+            if i == 0:
+                res += converter[s[i]]
+                return res
+            if converter[s[i-1]] >= converter[s[i]]:
+                res += converter[s[i]]
+                i -= 1
+            else:
+                res += converter[s[i]] - converter[s[i-1]]
+                i -= 2
+        
+        return res
+
+
+class Solution {
+public:
+    int romanToInt(string s) {
+        unordered_map<char, int> m = {
+            {'I', 1},
+            {'V', 5},
+            {'X', 10},
+            {'L', 50},
+            {'C', 100},
+            {'D', 500},
+            {'M', 1000}
+        };
+        int res = 0;
+        for(int i = 0; i < s.length(); i++){
+            if(i < s.length() - 1 && m[s[i]] < m[s[i+1]]){
+                if(s[i+1] == 'M') res += 900;
+                else if(s[i+1] == 'D') res += 400;
+                else if(s[i+1] == 'C') res += 90;
+                else if(s[i+1] == 'L') res += 40;
+                else if(s[i+1] == 'X') res += 9;
+                else res += 4;
+                i += 1;
+            }else{
+                res += m[s[i]];
+            }
+        }
+        return res;
+    }
+};
+            
+            
+
+Time Complexity: O(N)
+Space Complexity: O(1)
