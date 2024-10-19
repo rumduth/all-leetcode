@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int l = 0;
+        for(int r = 0; r < nums.size(); r++){
+            if(nums[r] != nums[l]){
+                nums[++l] = nums[r];
+            } 
+        }
+        return l + 1;
+    }
+};
+
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        left = 0
+        for i, num in enumerate(nums):
+            if num != nums[left]:
+                left += 1
+                nums[left], nums[i] = nums[i], nums[left]
+        
+        return left + 1
+
+Time Complexity: O(N)
+Space Complexity: O(1)
