@@ -1,0 +1,34 @@
+class Solution {
+private:
+    bool is_pair(char& c1, char& c2){
+        return (c1 == '[' && c2 == ']') || (c1 == '{' && c2 == '}') || (c1 == '(' && c2 == ')');
+    }
+public:
+    bool isValid(string s) {
+        stack<char> st;
+        for(auto c: s){
+            if(st.empty() || !is_pair(st.top(), c)) st.push(c);
+            else st.pop();
+        }
+        return st.empty();
+    }
+};
+
+
+class Solution:
+    def isValid(self, s: str) -> bool:
+        def is_valid_pair(c1, c2):
+            return (c1 + c2) in ['()','[]','{}']
+                
+        stack = []
+        for c in s:
+            if not stack or not is_valid_pair(stack[-1],c):
+                stack.append(c)
+            else:
+                stack.pop()
+        
+        return len(stack) == 0
+
+
+Time Complexity: O(N)
+Space Complexity: O(N)
