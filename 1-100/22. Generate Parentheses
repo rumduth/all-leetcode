@@ -1,0 +1,35 @@
+class Solution {
+private:
+    void helper(vector<string>& res, string build, int open, int close, int n){
+        if(open == close && open == n){
+            res.push_back(build);
+            return;
+        }
+        if(open < n) helper(res, build + "(", open + 1, close, n);
+        if(close < open) helper(res, build + ")", open, close + 1, n);
+    }
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> res;
+        helper(res,"",0,0,n);
+        return res;
+    }
+};
+
+
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        res = []
+        def helper(open, close, build):
+            if open == close and open == n:
+                res.append(build)
+                return
+            if open < n: helper(open + 1, close, build + '(')
+            if close < open: helper(open, close + 1, build + ')')
+        
+        helper(0,0,'')
+        return res
+
+
+Time Complexity: O(N * 4^N)
+Space Complexity: O(N * 4^N)
