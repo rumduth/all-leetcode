@@ -1,0 +1,61 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        auto cmp = [](ListNode* a, ListNode* b){
+            return a->val > b->val;
+        };
+        priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)> pq;
+        for(auto l: lists) if(l) pq.push(l);
+
+        ListNode* head = nullptr;
+        ListNode* cur = nullptr;
+        while(!pq.empty()){
+            auto node = pq.top();
+            pq.pop();
+            if(node->next) pq.push(node->next);
+            if(!head) head = cur = node;
+            else{
+                cur->next = node;
+                cur = node;
+            }
+        }
+        return head;
+    }
+};
+
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        dummy = cur = ListNode()
+        heap = []
+        
+        for i, head in enumerate(lists):
+            if head:
+                heapq.heappush(heap,(head.val,i,head))
+        
+        while heap:
+            val, i, head = heapq.heappop(heap)
+            if head.next:
+                heapq.heappush(heap,(head.next.val,i,head.next))
+            cur.next = head
+            cur = cur.next
+           
+        return dummy.next
+
+Time Complexity: O(NLogK)
+Space Complexity: O(K)
