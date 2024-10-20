@@ -1,0 +1,64 @@
+class Solution {
+public:
+    vector<int> findSubstring(string s, vector<string>& words) {
+        vector<int> res;
+        unordered_map<string, int> wordsFrequency;
+        for(auto w: words) wordsFrequency[w] += 1;
+        int must_filled = wordsFrequency.size();
+        int word_length = words[0].size();
+        int window_size = words.size() * word_length;
+        for(int i = 0; i < word_length; i++){
+            unordered_map<string, int> candidateFrequency;
+            int left = i;
+            int filled = 0;
+            for(int right = i; right < s.length(); right += word_length){
+                auto word_candidate = s.substr(right,word_length);
+                candidateFrequency[word_candidate] += 1;
+                if(candidateFrequency[word_candidate] == wordsFrequency[word_candidate]) filled += 1;
+                while(left <= right && candidateFrequency[word_candidate] > wordsFrequency[word_candidate]){
+                    auto remove_word = s.substr(left,word_length);
+                    if(candidateFrequency[remove_word] == wordsFrequency[remove_word]) filled -= 1;
+                    candidateFrequency[remove_word] -= 1;
+                    left += word_length;
+                }
+                if(filled == must_filled) res.push_back(left);
+            }
+        
+        }
+        return res;
+    }
+};
+
+
+class Solution:
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
+        wordsFrequency = Counter(words)
+        must_filled = len(wordsFrequency)
+        word_length = len(words[0])
+        res = []
+        for i in range(word_length):
+            candidateFrequency = Counter()
+            filled = 0
+            left = i
+            for right in range(i, len(s), word_length):
+                candidate_word = s[right:right + word_length]
+                candidateFrequency[candidate_word] += 1
+                if candidateFrequency[candidate_word] == wordsFrequency[candidate_word]:
+                    filled += 1
+                while left <= right and candidateFrequency[candidate_word] > wordsFrequency[candidate_word]:
+                    removed_word = s[left:left + word_length]
+                    if candidateFrequency[removed_word] == wordsFrequency[removed_word]:
+                        filled -= 1
+                    candidateFrequency[removed_word] -= 1
+                    left += word_length
+                if filled == must_filled:
+                    res.append(left)
+        
+        return res
+
+m: length of s
+k: number of words in wordlist
+n: length of each word
+
+Time Complexity: O(m * n)
+Space Complexity: O(n * k)
