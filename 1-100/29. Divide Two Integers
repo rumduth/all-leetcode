@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int divide(int dividend, int divisor) {
+        if(dividend == 0) return 0;
+        long long absdividend = abs(1ll * dividend);
+        long long absdivisor = abs(1ll * divisor);
+        long long res = 0;
+        int sign = (dividend > 0) ^ (divisor > 0) ? -1 : 1;
+        while(absdividend >= absdivisor){
+            int shift = 0;
+            while(absdividend >= (absdivisor << (shift + 1))) shift += 1;
+            res += 1ll << shift;
+            absdividend -= (absdivisor << shift);
+        }
+        if(res * sign >= INT_MAX) return INT_MAX;
+        if(res * sign <= INT_MIN) return INT_MIN;
+        return res * sign;
+    }
+};
+
+class Solution:
+    def divide(self, dividend: int, divisor: int) -> int:
+        if dividend == 0:
+            return 0
+        sign = 1 if (dividend > 0) ^ (divisor > 0) == 0 else -1 
+        dividend = abs(dividend)
+        divisor = abs(divisor)
+
+        res = 0
+        while dividend >= divisor:
+            shift = 0
+            while dividend >= (divisor << (shift + 1)):
+                shift += 1
+            res += 1 << shift
+            dividend -= (divisor << shift)
+        
+        if sign * res >= pow(2,31) - 1:
+            return pow(2,31) - 1
+        if sign * res <= -pow(2,31):
+            return -pow(2,31)
+        return sign * res
+
+
+
+Time Complexity: O(log(dividend))
+Space Complexity: O(1)
