@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        int left = 0;
+        int right = nums.size();
+        while(left < right){
+            int m = (left + right) >> 1;
+            if(nums[m] < target) left = m + 1;
+            else right = m;
+        }
+        return left;
+    }
+};
+
+
+Time Complexity: O(logN)
+Space Complexity: O(1)
