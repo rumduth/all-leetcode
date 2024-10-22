@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int first_index = lower_bound(nums.begin(),nums.end(),target) - nums.begin();
+        int last_index = lower_bound(nums.begin(),nums.end(), target + 1) - nums.begin() - 1;
+        if(first_index == nums.size()) return {-1,-1};
+        if(nums[first_index] != target) return {-1,-1};
+        return {first_index, last_index};
+    }
+};
+
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        first_index = bisect.bisect_left(nums, target)
+        last_index = bisect.bisect_left(nums, target + 1) - 1
+        if first_index == len(nums) or nums[first_index] != target:
+            return [-1,-1]
+        return [first_index, last_index]
+
+Time Complexity: O(N)
+Space Complexity: O(1)
