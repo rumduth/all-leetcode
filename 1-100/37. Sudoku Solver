@@ -1,0 +1,101 @@
+#include <vector> // Add this line to include the vector library
+
+using namespace std; 
+class Solution {
+private:
+    vector<vector<int>> row;
+    vector<vector<int>> col;
+    vector<vector<int>> diag;
+    bool dfs(vector<vector<char>>& board, int r, int c){
+        int m = board.size();
+        int n = board[0].size();
+        if(r == m) return true;
+        if(c == n) return dfs(board,r+1,0);
+        if(board[r][c] != '.') return dfs(board,r,c+1);
+        for(int i = 0; i < 9; i++){
+            int sub = 3 * (r / 3) + (c/ 3);
+            if(row[r][i] || col[c][i] || diag[sub][i]) continue;
+            row[r][i] += 1;
+            col[c][i] += 1;
+            diag[sub][i] += 1;
+            board[r][c] = '1' + i;
+            if(dfs(board,r,c+1)) return true;
+            board[r][c] = '.';
+            row[r][i] -= 1;
+            col[c][i] -= 1;
+            diag[sub][i] -= 1;
+        }
+        return false;
+    }
+public:
+    Solution(){
+        row.resize(9, vector<int>(9,0));
+        col.resize(9, vector<int>(9,0));
+        diag.resize(9, vector<int>(9,0));
+    }
+    void solveSudoku(vector<vector<char>>& board) {
+        int m = board.size();
+        int n = board[0].size();
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(board[i][j] == '.') continue;
+                int index = board[i][j] - '1';
+                row[i][index] += 1;
+                col[j][index] += 1;
+                diag[3 * (i / 3) + j / 3][index] += 1;
+            }
+        }
+        dfs(board,0,0);
+    }
+};
+
+
+class Solution:
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        row = [[0] * 9 for _ in range(9)]
+        col = [[0] * 9 for _ in range(9)]
+        diag = [[0] * 9 for _ in range(9)]
+
+        def dfs(r, c):
+            if r == 9:
+                return True
+            if c == 9:
+                return dfs(r + 1, 0)
+            if board[r][c] != '.':
+                return dfs(r, c + 1)
+
+            for i in range(9):
+                subGrid = 3 * (r // 3) + c // 3
+                if row[r][i] or col[c][i] or diag[subGrid][i]:
+                    continue
+                row[r][i] += 1
+                col[c][i] += 1
+                diag[subGrid][i] += 1
+                board[r][c] = str(i+1)
+                if dfs(r,c+1):
+                    return True
+                board[r][c] = '.'
+                row[r][i] -= 1
+                col[c][i] -= 1
+                diag[subGrid][i] -= 1
+            
+            return False
+
+
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] == '.':
+                    continue
+                index = ord(board[i][j]) - ord('1')
+                row[i][index] += 1
+                col[j][index] += 1
+                diag[3 * (i // 3) + j // 3][index] += 1
+        
+        dfs(0,0)
+
+
+Time Complexity: O(9 ^ (empty_space))
+Space Complexity: O(1)
