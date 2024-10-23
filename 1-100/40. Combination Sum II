@@ -1,0 +1,57 @@
+class Solution {
+public:
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(),candidates.end());
+        vector<vector<int>> res;
+        vector<int> seq;
+        int cur_sum = 0;
+
+        function<void(int)> dfs = [&](int i){
+            if(cur_sum == target){
+                res.push_back(seq);
+                return;
+            }
+            if(i >= candidates.size() || cur_sum > target) return;
+            for(int j = i; j < candidates.size(); j++){
+                if(j > i && candidates[j] == candidates[j-1]) continue;
+                cur_sum += candidates[j];
+                seq.push_back(candidates[j]);
+                dfs(j+1);
+                cur_sum -= candidates[j];
+                seq.pop_back();
+            }
+        };
+
+        dfs(0);
+        return res;
+    }
+};
+
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        res = []
+        seq = []
+        cur_sum = 0
+        candidates.sort()
+        def dfs(i):
+            nonlocal cur_sum
+            if cur_sum == target:
+                res.append(seq[:])
+                return
+            if i >= len(candidates) or cur_sum > target:
+                return
+            
+            for j in range(i, len(candidates)):
+                if j > i and candidates[j] == candidates[j-1]:
+                    continue
+                seq.append(candidates[j])
+                cur_sum += candidates[j]
+                dfs(j+1)
+                cur_sum -= candidates[j]
+                seq.pop()
+
+        dfs(0)
+        return res
+
+Time Complexity: O(2 ^ N)
+Space Complexity: O(min(target,N))
