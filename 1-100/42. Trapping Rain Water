@@ -1,0 +1,50 @@
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int n = height.size();
+        vector<int> left(n,0);
+        vector<int> right(n,0);
+        left[0] = INT_MAX;
+        int prev_height = height[0];
+        for(int i = 1; i < n; i++){
+            left[i] = prev_height;
+            prev_height = max(prev_height, height[i]);
+        }
+        right[n-1] = INT_MAX;
+        prev_height = height[n-1];
+        for(int i = n - 2; i >= 0; i--){
+            right[i] = prev_height;
+            prev_height = max(prev_height,height[i]);
+        }
+        int area = 0;
+        for(int i = 1; i <= n - 2; i++){
+            if(min(left[i],right[i]) <= height[i]) continue;
+            area += min(left[i],right[i]) - height[i];
+        }
+        return area;
+    }
+};
+
+
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        n = len(height)
+        left = [0] * n
+        right = [0] * n
+        prev_height = height[0]
+        for i in range(1,n):
+            left[i] = prev_height
+            prev_height = max(prev_height, height[i])
+        
+        prev_height = height[n-1]
+        for i in range(n - 2, -1, -1):
+            right[i] = prev_height
+            prev_height = max(prev_height, height[i])
+        
+        area = 0
+        for i in range(1, n - 1):
+            area += max(min(left[i],right[i]) - height[i],0)
+        
+        return area
+Time Complexity: O(N)
+Space Complexity: O(N)
