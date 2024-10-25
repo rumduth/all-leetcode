@@ -1,0 +1,88 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+private:
+    ListNode* reverseList(ListNode* head){
+        if(!head || !head->next) return head;
+        ListNode* tail = nullptr;
+        while(head){
+            ListNode* nextNode= head->next;
+            head->next = tail;
+            tail = head;
+            head = nextNode;
+        }
+        return tail;
+    }
+public:
+    bool isPalindrome(ListNode* head) {
+        if(!head || !head->next) return true;
+        ListNode* dummy = new ListNode();
+        dummy->next = head;
+        ListNode* slow = dummy;
+        ListNode* fast = dummy;
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        fast = reverseList(slow->next);
+        slow = dummy->next;
+        while(fast){
+            if(fast->val != slow->val) return false;
+            fast = fast->next;
+            slow = slow->next;
+        }
+        return true;
+    }
+};
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        if not head or not head.next:
+            return True
+
+        def reverse_list(h):
+            if not h or not h.next:
+                return h
+            tail = None
+            while h:
+                next_node = h.next
+                h.next = tail
+                tail = h
+                h = next_node
+            return tail
+        
+        dummy = ListNode()
+        dummy.next = head
+        slow = dummy
+        fast = dummy
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        
+        fast = reverse_list(slow.next)
+        slow = dummy.next
+        while fast:
+            if slow.val != fast.val:
+                return False
+            fast = fast.next
+            slow = slow.next
+        
+        return True
+            
+
+
+Time Complexity: O(N)
+Space Complexity: O(1)
