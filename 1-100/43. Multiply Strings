@@ -1,0 +1,59 @@
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        int m = num1.size();
+        int n = num2.size();
+        int carry = 0;
+        vector<char> product(m+n,'0');
+        for(int i = m - 1; i >= 0; i--){
+            for(int j = n - 1; j >= 0; j--){
+                int adding = product[i+j+1] - '0' + (num1[i] - '0') * (num2[j] - '0') + carry;
+                carry = adding / 10;
+                product[i+j+1] = '0' + (adding % 10);
+            }
+            if(carry){
+                product[i] = '0' + carry;
+                carry = 0;
+            }
+        }
+        int i = 0;
+        while(i < product.size()){
+            if(product[i] == '0') i++;
+            else break;
+        }
+        string result = "";
+        while(i < product.size()) result.push_back(product[i++]);
+        if(result.size() == 0) return "0";
+        return result;
+    }
+};
+
+
+class Solution:
+    def multiply(self, num1: str, num2: str) -> str:
+        m = len(num1)
+        n = len(num2)
+        product = [0] * (m + n)        
+        for i in range(m-1,-1,-1):
+            for j in range(n-1, -1, -1):
+                mutilple = (ord(num1[i]) - ord('0')) * (ord(num2[j]) - ord('0'))
+                adding = product[i + j + 1] + mutilple
+                product[i + j + 1] = adding % 10
+                product[i + j] += adding // 10
+        
+        res = ""
+        i = 0
+        print(product)
+        while i < len(product) and product[i] == 0:
+            i += 1
+        while i < len(product):
+            res += str(product[i])
+            i += 1
+        if not res:
+            return "0"
+        return res
+
+
+
+Time Complexity: O(m * n)
+Space Complexxity: O(m + n)
