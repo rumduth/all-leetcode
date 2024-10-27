@@ -1,0 +1,47 @@
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        if(nums.size() == 1) return 0;
+        int target = nums.size() - 1;
+        if(nums[0] >= target) return 1;
+        int step = 1;
+        int cur_max_reach = nums[0];
+        int max_reach = nums[0];
+        for(int i = 1; i < nums.size(); i++){
+            max_reach = max(max_reach, i + nums[i]);
+            if(i == cur_max_reach){
+                cur_max_reach = max_reach;
+                step += 1;
+                if(max_reach >= target) return step;
+            }
+        }
+        return -1;
+    }
+};
+
+
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        n = len(nums)
+        target = n - 1
+        if n == 1:
+            return 0
+        if nums[0] >= target:
+            return 1
+        cur_max_reach = nums[0]
+        step = 1
+        max_reach = nums[0]
+        for i in range(1, n):
+            max_reach = max(max_reach,i + nums[i])
+            if i == cur_max_reach:
+                cur_max_reach = max(cur_max_reach,max_reach)
+                step += 1
+                if cur_max_reach >= target:
+                    return step
+        
+        return -1
+            
+
+
+Time Complexity: O(N)
+Space Complexity: O(1)
