@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> res;
+        unordered_map<string, vector<string>> m;
+        for(auto str: strs){
+            auto copy = str;
+            sort(copy.begin(),copy.end());
+            m[copy].push_back(str);
+        }
+        for(auto& p: m) res.push_back(p.second);
+        return res;
+    }
+};
+
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        m = defaultdict(list)
+        for s in strs:
+            copy = s
+            copy = ''.join(sorted(copy))
+            m[copy].append(s)
+        
+        return [v for _, v in m.items()]
+
+
+L: average length of each str
+Time Complexity: O(NLog(L))
+Space Complexity: O(N)
