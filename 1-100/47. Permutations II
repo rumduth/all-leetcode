@@ -1,0 +1,53 @@
+class Solution {
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        unordered_map<int, int> m;
+        for(auto n: nums) m[n]++;
+        int total = nums.size();
+        vector<vector<int>> res;
+        vector<int> seq;
+        function<void()> dfs = [&](){
+            if(total == 0){
+                res.push_back(seq);
+                return;
+            }
+            for(auto& p: m){
+                if(p.second == 0) continue;
+                seq.push_back(p.first);
+                p.second--;
+                total--;
+                dfs();
+                p.second++;
+                total++;
+                seq.pop_back();
+            }
+        };
+        dfs();
+        return res;
+    }
+};
+
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        counter = Counter(nums)
+        res = []
+        seq = []
+        def dfs():
+            if len(seq) == len(nums):
+                res.append(seq[:])
+                return
+            for item, cnt in counter.items():
+                if cnt == 0:
+                    continue
+                seq.append(item)
+                counter[item] -= 1
+                dfs()
+                counter[item] += 1
+                seq.pop()
+        
+        dfs()
+        return res
+
+
+Time Complexity: O(N * N!)
+Space Complexity: O(N)
