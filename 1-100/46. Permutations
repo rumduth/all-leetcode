@@ -1,0 +1,50 @@
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<bool> visited(nums.size(), false);
+        vector<vector<int>> res;
+        vector<int> seq;
+
+        function<void()> dfs = [&](){
+            if(seq.size() == nums.size()){
+                res.push_back(seq);
+                return;
+            }
+            for(int i = 0; i < nums.size(); i++){
+                if(!visited[i]){
+                    seq.push_back(nums[i]);
+                    visited[i] = true;
+                    dfs();
+                    seq.pop_back();
+                    visited[i] = false;
+                }
+            }
+        };
+        dfs();
+        return res;
+    }
+};
+
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        seq = []
+        res = []
+        visited = [False] * len(nums)
+        def dfs():
+            if len(seq) == len(nums):
+                res.append(seq[:])
+                return
+            for i in range(len(nums)):
+                if not visited[i]:
+                    visited[i] = True
+                    seq.append(nums[i])
+                    dfs()
+                    seq.pop()
+                    visited[i] = False
+        
+        dfs()
+        return res
+
+
+Time Complexity: O(N * N!)
+Space Complexity: O(N)
