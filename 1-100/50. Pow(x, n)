@@ -1,0 +1,38 @@
+class Solution {
+private:
+    double ll_myPow(double x, long long n){
+        if(n == 0) return 1;
+        if(n == 1) return x;
+        if(n < 0) return ll_myPow(1/x,-n);
+        if(n % 2 == 1){
+            n -= 1;
+            auto half = ll_myPow(x,n/2);
+            return x * half * half;
+        }else{
+            auto half = ll_myPow(x,n/2);
+            return half * half;
+        }
+    }
+public:
+    double myPow(double x, int n) {
+        return ll_myPow(x, n);
+    }
+};
+
+
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        def quickPow(base, exponent):
+            res = 1.0
+            while exponent > 0:
+                if exponent & 1:
+                    res *= base
+                base *= base
+                exponent = exponent >> 1
+            return res
+        
+        if n < 0:
+            return quickPow(1/x, -n)
+        return quickPow(x,n)
+Time Complexity: O(logN)
+Space Complexity: O(logN)
