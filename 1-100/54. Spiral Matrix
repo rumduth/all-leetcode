@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int> res;
+        int cnt = 0;
+        vector<int> dir = {0,1,0,-1,0};
+        int index_dir = 0;
+        int r = 0, c = 0;
+        int m = matrix.size(), n = matrix[0].size();
+        while(cnt < m * n){
+            res.push_back(matrix[r][c]);
+            cnt += 1;
+            matrix[r][c] = 1000;
+            int next_r = r + dir[index_dir];
+            int next_c = c + dir[index_dir+1];
+            if(next_r >= m || next_r < 0 || next_c >= n || next_c < 0 || matrix[next_r][next_c] == 1000) index_dir = (index_dir + 1) % 4;
+            r = r + dir[index_dir];
+            c = c + dir[index_dir+1];
+        }
+        return res;
+    }
+};
+
+Time Complexity: O(m*n)
+Space Complexity: O(1)
