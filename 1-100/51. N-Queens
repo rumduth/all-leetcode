@@ -1,0 +1,67 @@
+class Solution {
+private:
+    unordered_set<int> col;
+    unordered_set<int> negDiag;
+    unordered_set<int> posDiag;
+    void helper(int r, int n, vector<string>& board, vector<vector<string>>& res){
+        if(r == n){
+            res.push_back(board);
+            return;
+        }
+        for(int c = 0; c < n; c++){
+            if(col.find(c) != col.end() || negDiag.find(r-c) != negDiag.end() || posDiag.find(r+c) != posDiag.end()) continue;
+            col.insert(c);
+            negDiag.insert(r-c);
+            posDiag.insert(r+c);
+            board[r][c] = 'Q';
+            helper(r+1,n,board,res);
+            col.erase(c);
+            negDiag.erase(r-c);
+            posDiag.erase(r+c);
+            board[r][c] = '.';
+        }
+    }
+
+public:
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> res;
+        vector<string> board;
+        for(int i = 0; i < n; i++){
+            string row;
+            for(int j = 0; j < n; j++) row.push_back('.');
+            board.push_back(row);
+        }
+        helper(0,n,board,res);
+        return res;
+    }
+};
+
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        col = set()
+        posDiag = set()
+        negDiag = set()
+        board = [["."] * n for _ in range(n)]
+        res = []
+        def dfs(r):
+            nonlocal res
+            if r == n:
+                res.append(["".join(row) for row in board])
+                return 
+            for c in range(n):
+                if c in col or (r + c) in negDiag or (r - c) in posDiag: continue
+                col.add(c)
+                negDiag.add(r+c)
+                posDiag.add(r-c)
+                board[r][c] = 'Q'
+                dfs(r+1)
+                col.remove(c)
+                negDiag.remove(r+c)
+                posDiag.remove(r-c)
+                board[r][c] = '.'
+            
+        dfs(0)
+        return res
+
+Time Complexity: O(N!)
+Space Complexity: O(N^2)
