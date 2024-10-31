@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        int start = newInterval[0];
+        int end = newInterval[1];
+        vector<vector<int>> res;
+        for(int i = 0; i < intervals.size(); i++){
+            int next_start = intervals[i][0];
+            int next_end = intervals[i][1];
+            if(end < next_start){
+                res.push_back({start,end});
+                start = next_start;
+                end = next_end;
+            }else if(start > next_end){
+                res.push_back({next_start,next_end});
+            }else{
+                start = min(start, next_start);
+                end = max(end,next_end);
+            }
+        }
+        res.push_back({start,end});
+        return res;
+    }
+};
+
+Time Complexity: O(N)
+Space Complexity: O(1)
